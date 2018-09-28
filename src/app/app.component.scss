@@ -1,5 +1,8 @@
+:host {
+  background: #87cbf2;
+}
 .game-card-block {
-  padding: 16px;
+  padding: 16px 46px;
   margin: 24px;
   .black {
     color: #000000;
@@ -23,6 +26,9 @@
     .card__suit--bottom {
       transform: rotate(180deg);
     }
+  }
+  .front-card {
+    background: #ffffff;
   }
   .preview-double {
     margin-right: -60px;

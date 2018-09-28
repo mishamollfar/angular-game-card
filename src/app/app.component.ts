@@ -20,6 +20,13 @@ export class AppComponent implements OnInit {
     '♥': 'red',
   };
 
+  deckOfCards = {
+    '♠': [],
+    '♣': [],
+    '♦': [],
+    '♥': [],
+  };
+
   constructor(private cd: ChangeDetectorRef) {
     this.initCards();
     this.initPreviewCards();
@@ -72,5 +79,12 @@ export class AppComponent implements OnInit {
       this.initPreviewCards();
     }
     this.cd.detectChanges();
+  }
+
+  selcetCard(card) {
+    const selectFinal = Object.assign([], this.cards);
+    const indexClickedCard = selectFinal.findIndex(item => item.id === card.id);
+    this.deckOfCards[card.suit].push(selectFinal.splice(indexClickedCard, 1)[0]);
+    this.cards = selectFinal;
   }
 }
