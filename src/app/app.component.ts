@@ -82,9 +82,18 @@ export class AppComponent implements OnInit {
   }
 
   selcetCard(card) {
-    const selectFinal = Object.assign([], this.cards);
-    const indexClickedCard = selectFinal.findIndex(item => item.id === card.id);
-    this.deckOfCards[card.suit].push(selectFinal.splice(indexClickedCard, 1)[0]);
-    this.cards = selectFinal;
+    if (this.verifyOrderOfCard(card)) {
+      const selectFinal = Object.assign([], this.cards);
+      const indexClickedCard = selectFinal.findIndex(item => item.id === card.id);
+      this.deckOfCards[card.suit].push(selectFinal.splice(indexClickedCard, 1)[0]);
+      this.cards = selectFinal;
+    }
+  }
+
+  verifyOrderOfCard(card) {
+    const originIndex = this.ranks.findIndex(item => item === card.rank);
+    const deckIndex =  this.deckOfCards[card.suit].length ;
+
+    return originIndex === deckIndex;
   }
 }

@@ -13,7 +13,7 @@
 
 <div class="game-card-block" fxLayout="row" fxLayoutAlign="space-between center">
   <!--Preview card block-->
-  <div [class]="'card mat-elevation-z2 teal-card link'" fxLayout="column" (click)="showPreviewCard($event)"></div>
+  <div [class]="'card mat-elevation-z2 teal-card '" fxLayout="column" (click)="showPreviewCard($event)"></div>
   <div fxLayout="row" fxFlex="">
     <div *ngFor="let card of previewCards" [class]="'card mat-elevation-z2 preview-double ' + suitColor[card.suit]" fxLayout="column">
       <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
