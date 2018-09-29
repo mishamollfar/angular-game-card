@@ -24,9 +24,11 @@
 <div class="start-game" *ngIf="startGame">
   <div class="game-card-block" fxLayout="row" fxLayoutAlign="space-between center">
     <!--Preview card block-->
-    <div [class]="'card mat-elevation-z2 teal-card '" fxLayout="column" (click)="showPreviewCard($event)"></div>
+    <div [class]="'card mat-elevation-z2 teal-card '" fxLayout="column" (click)="showPreviewCard()"></div>
     <div fxLayout="row" fxFlex="">
-      <div *ngFor="let card of previewCards" [class]="'card mat-elevation-z2 preview-double ' + suitColor[card.suit]" fxLayout="column">
+      <div *ngFor="let card of previewCards" [class]="'card mat-elevation-z8 preview-double ' + suitColor[card.suit]"
+           fxLayout="column"
+           (dblclick)="selectCard({card: card, where: 'previewCards'})">
         <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
         <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>
         <span class="card__suit--bottom" fxLayoutAlign="flex-start center">{{ card.suit }}</span>
@@ -64,7 +66,7 @@
   <div class="game-card-block" fxLayout="row wrap">
     <div *ngFor="let card of tableCards"
          [class]="'card mat-elevation-z2 front-card ' + suitColor[card.suit]" fxLayout="column"
-         (dblclick)="selcetCard(card)">
+         (dblclick)="selectCard({card: card, where: 'tableCards'})">
          <!--(click)="selcetCard(card)">-->
       <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
       <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>

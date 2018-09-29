@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   startGame = false;
   tableCards: any [] = [];
   cards: any [] = [];
+  previewDeck: any [] = [];
   prew: any [] = [];
   previewCards: any [] = [];
   ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -60,6 +61,7 @@ export class AppComponent implements OnInit {
 
   initPreviewCards() {
     this.prew = Object.assign([], this.cards.slice(0, 24));
+    this.previewDeck = Object.assign([], this.cards.slice(0, 24));
   }
 
   initTableCards() {
@@ -90,6 +92,7 @@ export class AppComponent implements OnInit {
     this.previewCards = [];
     this.deckOfCards = null;
     this.prew = [];
+    this.previewDeck = [];
   }
 
   resetCards() {
@@ -97,25 +100,28 @@ export class AppComponent implements OnInit {
     this.toStart();
   }
 
-  showPreviewCard(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
+  showPreviewCard() {
     if (this.prew.length > 0) {
       this.previewCards = this.prew.splice(0, 3);
     } else {
       this.previewCards = [];
-      this.initPreviewCards();
+      // this.initPreviewCards();
+      this.prew = Object.assign([], this.previewDeck);
     }
     this.cd.detectChanges();
   }
 
-  selcetCard(card) {
-    if (this.verifyOrderOfCard(card)) {
-      const selectFinal = Object.assign([], this.tableCards);
-      const indexClickedCard = selectFinal.findIndex(item => item.id === card.id);
-      this.deckOfCards[card.suit].push(selectFinal.splice(indexClickedCard, 1)[0]);
-      this.tableCards = selectFinal;
+  selectCard(event) {
+    if (this.verifyOrderOfCard(event.card)) {
+      const selectFinal = Object.assign([], this[event.where]);
+      const indexClickedCard = selectFinal.findIndex(item => item.id === event.card.id);
+      this.deckOfCards[event.card.suit].push(selectFinal.splice(indexClickedCard, 1)[0]);
+      this[event.where] = selectFinal;
+    }
+
+    if (event.where === 'previewCards') {
+      const indexPreviewDeck = this.previewDeck.findIndex(item => item.id === event.card.id);
+      this.previewDeck.splice(indexPreviewDeck, 1);
     }
   }
 
