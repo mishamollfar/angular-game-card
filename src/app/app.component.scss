@@ -1,6 +1,14 @@
-:host {
-  background: #87cbf2;
+.game-logo {
+  margin: 120px auto !important;
+  font-size: 3em;
+  font-family: Georgia, monospace;
+  h2 {
+    background: linear-gradient(45deg, #b50923, #d4219d, #1576de, #349be4, #75229e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
+
 .game-card-block {
   padding: 16px 46px;
   margin: 24px;

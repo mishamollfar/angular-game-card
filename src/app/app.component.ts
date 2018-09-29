@@ -7,7 +7,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@an
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  title = 'angular-game-card';
+  startGame = false;
+  tableCards: any [] = [];
   cards: any [] = [];
   prew: any [] = [];
   previewCards: any [] = [];
@@ -20,19 +21,24 @@ export class AppComponent implements OnInit {
     '♥': 'red',
   };
 
-  deckOfCards = {
-    '♠': [],
-    '♣': [],
-    '♦': [],
-    '♥': [],
-  };
+  deckOfCards;
 
-  constructor(private cd: ChangeDetectorRef) {
-    this.initCards();
-    this.initPreviewCards();
-  }
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
+  }
+
+  toStart() {
+    this.initCards();
+    this.initPreviewCards();
+    this.initDeckOfCards();
+    this.initTableCards();
+    this.startGame = true;
+  }
+
+  exitGame() {
+    this.clearVariable();
+    this.startGame = false;
   }
 
   initCards() {
@@ -48,10 +54,25 @@ export class AppComponent implements OnInit {
         id++;
       }
     }
+
+    this.shuffleCard();
   }
 
   initPreviewCards() {
-    this.prew = Object.assign([], this.cards);
+    this.prew = Object.assign([], this.cards.slice(0, 24));
+  }
+
+  initTableCards() {
+    this.tableCards = Object.assign([], this.cards.slice(24, this.cards.length));
+  }
+
+  initDeckOfCards() {
+    this.deckOfCards = {
+      '♠': [],
+      '♣': [],
+      '♦': [],
+      '♥': [],
+    };
   }
 
   shuffleCard() {
@@ -63,9 +84,17 @@ export class AppComponent implements OnInit {
     this.cards = newCards;
   }
 
-  resetCards() {
+  clearVariable() {
     this.cards = [];
-    this.initCards();
+    this.tableCards = [];
+    this.previewCards = [];
+    this.deckOfCards = null;
+    this.prew = [];
+  }
+
+  resetCards() {
+    this.clearVariable();
+    this.toStart();
   }
 
   showPreviewCard(event) {
@@ -83,10 +112,10 @@ export class AppComponent implements OnInit {
 
   selcetCard(card) {
     if (this.verifyOrderOfCard(card)) {
-      const selectFinal = Object.assign([], this.cards);
+      const selectFinal = Object.assign([], this.tableCards);
       const indexClickedCard = selectFinal.findIndex(item => item.id === card.id);
       this.deckOfCards[card.suit].push(selectFinal.splice(indexClickedCard, 1)[0]);
-      this.cards = selectFinal;
+      this.tableCards = selectFinal;
     }
   }
 

@@ -1,63 +1,74 @@
 <!--Control buttons block-->
-<div class="game-card-block" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="24px">
+<div *ngIf="startGame" class="game-card-block" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="24px">
   <button mat-raised-button color="accent" (click)="resetCards()">
     <mat-icon>settings_backup_restore</mat-icon>
-    <span>По порядку</span>
+    <span>Нова гра</span>
   </button>
-  <button mat-raised-button color="primary" (click)="shuffleCard()">
-    <mat-icon>shuffle</mat-icon>
-    <span>Тасувати</span>
+  <button mat-raised-button color="primary" (click)="exitGame()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Вихід</span>
   </button>
 </div>
 <!--end-->
 
-<div class="game-card-block" fxLayout="row" fxLayoutAlign="space-between center">
-  <!--Preview card block-->
-  <div [class]="'card mat-elevation-z2 teal-card '" fxLayout="column" (click)="showPreviewCard($event)"></div>
-  <div fxLayout="row" fxFlex="">
-    <div *ngFor="let card of previewCards" [class]="'card mat-elevation-z2 preview-double ' + suitColor[card.suit]" fxLayout="column">
+<!--logo new game-->
+<div class="game-logo game-card-block" *ngIf="!startGame" fxLayout="column" fxLayoutAlign="space-between center">
+  <h2>НОВА ГРА</h2>
+
+  <button *ngIf="!startGame" mat-raised-button color="primary" (click)="toStart()">
+    <span>Старт</span>
+  </button>
+</div>
+<!--end-->
+
+<div class="start-game" *ngIf="startGame">
+  <div class="game-card-block" fxLayout="row" fxLayoutAlign="space-between center">
+    <!--Preview card block-->
+    <div [class]="'card mat-elevation-z2 teal-card '" fxLayout="column" (click)="showPreviewCard($event)"></div>
+    <div fxLayout="row" fxFlex="">
+      <div *ngFor="let card of previewCards" [class]="'card mat-elevation-z2 preview-double ' + suitColor[card.suit]" fxLayout="column">
+        <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
+        <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>
+        <span class="card__suit--bottom" fxLayoutAlign="flex-start center">{{ card.suit }}</span>
+      </div>
+    </div>
+    <!--end-->
+
+    <!--Cart 4 suits-->
+    <div fxLayout="row" *ngIf="!!deckOfCards">
+      <div *ngFor="let suit of suits"
+           [class]="'card mat-elevation-z2 ' + suitColor[suit]"
+           [class.front-card]="deckOfCards[suit].length > 0"
+           fxLayout="column">
+        <ng-container *ngIf="deckOfCards[suit].length > 0">
+        <span fxLayoutAlign="flex-start center">
+          {{ deckOfCards[suit][deckOfCards[suit].length - 1].suit }}
+        </span>
+          <span class="card__number" fxFlex="" fxLayoutAlign="center center">
+          {{ deckOfCards[suit][deckOfCards[suit].length - 1].rank }}
+        </span>
+          <span class="card__suit--bottom" fxLayoutAlign="flex-start center">
+          {{ deckOfCards[suit][deckOfCards[suit].length - 1].suit }}
+        </span>
+        </ng-container>
+        <span *ngIf="!deckOfCards[suit].length" class="card__number" fxFlex="" fxLayoutAlign="center center"
+              style="font-size: 5em; opacity: 0.7;">
+        {{ suit }}
+      </span>
+      </div>
+    </div>
+    <!-- end-->
+  </div>
+
+  <!--All cards-->
+  <div class="game-card-block" fxLayout="row wrap">
+    <div *ngFor="let card of tableCards"
+         [class]="'card mat-elevation-z2 front-card ' + suitColor[card.suit]" fxLayout="column"
+         (click)="selcetCard(card)">
       <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
       <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>
       <span class="card__suit--bottom" fxLayoutAlign="flex-start center">{{ card.suit }}</span>
     </div>
   </div>
-  <!--end-->
-
-  <!--Cart 4 suits-->
-  <div fxLayout="row">
-    <div *ngFor="let suit of suits"
-         [class]="'card mat-elevation-z2 ' + suitColor[suit]"
-         [class.front-card]="deckOfCards[suit].length > 0"
-         fxLayout="column">
-      <ng-container *ngIf="deckOfCards[suit].length > 0">
-        <span fxLayoutAlign="flex-start center">
-          {{ deckOfCards[suit][deckOfCards[suit].length - 1].suit }}
-        </span>
-        <span class="card__number" fxFlex="" fxLayoutAlign="center center">
-          {{ deckOfCards[suit][deckOfCards[suit].length - 1].rank }}
-        </span>
-        <span class="card__suit--bottom" fxLayoutAlign="flex-start center">
-          {{ deckOfCards[suit][deckOfCards[suit].length - 1].suit }}
-        </span>
-      </ng-container>
-      <span *ngIf="!deckOfCards[suit].length" class="card__number" fxFlex="" fxLayoutAlign="center center"
-            style="font-size: 5em; opacity: 0.7;">
-        {{ suit }}
-      </span>
-    </div>
-  </div>
   <!-- end-->
 </div>
-
-<!--All cards-->
-<div class="game-card-block" fxLayout="row wrap">
-  <div *ngFor="let card of cards"
-       [class]="'card mat-elevation-z2 front-card ' + suitColor[card.suit]" fxLayout="column"
-       (click)="selcetCard(card)">
-    <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
-    <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>
-    <span class="card__suit--bottom" fxLayoutAlign="flex-start center">{{ card.suit }}</span>
-  </div>
-</div>
-<!-- end-->
-
