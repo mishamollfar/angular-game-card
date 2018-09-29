@@ -64,7 +64,8 @@
   <div class="game-card-block" fxLayout="row wrap">
     <div *ngFor="let card of tableCards"
          [class]="'card mat-elevation-z2 front-card ' + suitColor[card.suit]" fxLayout="column"
-         (click)="selcetCard(card)">
+         (dblclick)="selcetCard(card)">
+         <!--(click)="selcetCard(card)">-->
       <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
       <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>
       <span class="card__suit--bottom" fxLayoutAlign="flex-start center">{{ card.suit }}</span>
