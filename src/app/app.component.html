@@ -26,8 +26,9 @@
     <!--Preview card block-->
     <div [class]="'card mat-elevation-z2 teal-card '" fxLayout="column" (click)="showPreviewCard()"></div>
     <div fxLayout="row" fxFlex="">
-      <div *ngFor="let card of previewCards" [class]="'card mat-elevation-z8 preview-double ' + suitColor[card.suit]"
-           fxLayout="column"
+      <div *ngFor="let card of previewCards; let i = index"
+           [class]="'card mat-elevation-z8 preview-double ' + suitColor[card.suit]"
+           [class.disabled]="i < previewCards.length - 1" fxLayout="column"
            (dblclick)="selectCard({card: card, where: 'previewCards'})">
         <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
         <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>
