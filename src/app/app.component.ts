@@ -13,6 +13,17 @@ export class AppComponent implements OnInit {
   previewDeck: any [] = [];
   prew: any [] = [];
   previewCards: any [] = [];
+
+  allCardsColumns = {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+  };
+
   ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   suits = ['♥', '♦', '♠', '♣'];
   suitColor = {
@@ -66,6 +77,13 @@ export class AppComponent implements OnInit {
 
   initTableCards() {
     this.tableCards = Object.assign([], this.cards.slice(24, this.cards.length));
+    this.initColumnCards();
+  }
+
+  initColumnCards() {
+    Object.keys(this.allCardsColumns).forEach((key, index) => {
+      this.allCardsColumns[key] = this.tableCards.slice(index, +key + index);
+    });
   }
 
   initDeckOfCards() {
@@ -112,6 +130,7 @@ export class AppComponent implements OnInit {
   }
 
   selectCard(event) {
+    console.log(event);
     if (this.verifyOrderOfCard(event.card)) {
       const selectFinal = Object.assign([], this[event.where]);
       const indexClickedCard = selectFinal.findIndex(item => item.id === event.card.id);
@@ -130,5 +149,9 @@ export class AppComponent implements OnInit {
     const deckIndex =  this.deckOfCards[card.suit].length ;
 
     return originIndex === deckIndex;
+  }
+
+  disabledCard(currentCardsArray, index) {
+    return index < currentCardsArray.length - 1;
   }
 }

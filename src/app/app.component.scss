@@ -17,6 +17,7 @@
 .game-card-block {
   padding: 16px 46px;
   margin: 24px;
+  justify-content: center;
   .black {
     color: #000000;
   }
@@ -49,5 +50,11 @@
     margin-right: -60px;
     background: #fff;
     z-index: 1;
+    box-shadow: -1px -1px 5px 3px rgba(0, 0, 0, 0.4);
+  }
+  .preview-double-vert {
+    margin-bottom: -130px;
+    z-index: 1;
+    box-shadow: 3px -3px 5px 3px rgba(0, 0, 0, 0.27);
   }
 }

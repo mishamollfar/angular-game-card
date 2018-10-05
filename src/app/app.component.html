@@ -65,14 +65,30 @@
 
   <!--All cards-->
   <div class="game-card-block" fxLayout="row wrap">
-    <div *ngFor="let card of tableCards"
-         [class]="'card mat-elevation-z2 front-card ' + suitColor[card.suit]" fxLayout="column"
-         (dblclick)="selectCard({card: card, where: 'tableCards'})">
-         <!--(click)="selcetCard(card)">-->
-      <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
-      <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>
-      <span class="card__suit--bottom" fxLayoutAlign="flex-start center">{{ card.suit }}</span>
+    <!--<div *ngFor="let card of tableCards"-->
+         <!--[class]="'card mat-elevation-z2 front-card ' + suitColor[card.suit]" fxLayout="column"-->
+         <!--(dblclick)="selectCard({card: card, where: 'tableCards'})">-->
+         <!--&lt;!&ndash;(click)="selcetCard(card)">&ndash;&gt;-->
+      <!--<span fxLayoutAlign="flex-start center">{{ card.suit }}</span>-->
+      <!--<span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>-->
+      <!--<span class="card__suit&#45;&#45;bottom" fxLayoutAlign="flex-start center">{{ card.suit }}</span>-->
+    <!--</div>-->
+    <div *ngFor="let ind of [1, 2, 3, 4, 5, 6, 7]">
+      <div *ngFor="let card of allCardsColumns[ind]; let i = index"
+        [class]="'card mat-elevation-z2 preview-double-vert ' + suitColor[card.suit]"
+        [class.front-card]="!disabledCard(allCardsColumns[ind], i)"
+        [class.teal-card]="disabledCard(allCardsColumns[ind], i)"
+        [class.disabled]="disabledCard(allCardsColumns[ind], i)" fxLayout="column"
+        (dblclick)="selectCard({card: card, where: 'tableCards'})">
+        <!--(click)="selcetCard(card)">-->
+        <ng-container *ngIf="!disabledCard(allCardsColumns[ind], i)">
+          <span fxLayoutAlign="flex-start center">{{ card.suit }}</span>
+          <span class="card__number" fxFlex="" fxLayoutAlign="center center">{{ card.rank }} </span>
+          <span class="card__suit--bottom" fxLayoutAlign="flex-start center">{{ card.suit }}</span>
+        </ng-container>
+      </div>
     </div>
+
   </div>
   <!-- end-->
 </div>
